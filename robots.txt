@@ -1,0 +1,26 @@
+# robots.txt for talimai.tech
+# Last updated: 2026-05-15
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /*?*
+
+# Be friendly to AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://talimai.tech/sitemap.xml
