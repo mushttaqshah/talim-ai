@@ -69,7 +69,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;500;700&display=swap" rel="stylesheet">
 
 <!-- Pageclip stylesheet (for form loading spinner) -->
-<link rel="stylesheet" href="https://s.pageclip.co/v1/pageclip.css" media="screen">
+<script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
 
 <!-- Libraries for CV Analyzer -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -2440,7 +2440,8 @@
       <div class="cta-urdu" lang="ur" dir="rtl">آپ کا ادارہ، ہمارا نظام</div>
       <p class="cta-sub">We're working with a small cohort of Pakistani HEIs in 2026 to refine the platform before public launch. Add your email — we'll reach out personally within 48 hours.</p>
       <!-- Pageclip-powered contact form. Submissions go to Pageclip dashboard + email. -->
-      <form class="cta-form pageclip-form" action="https://send.pageclip.co/2lYgWddnh3q2871V81UWBg8tsBjqxT9k" method="post">
+       <form class="cta-form" id="contact-form" action="https://talimai.tech/api/subscribe" method="post">
+        <input type="text" name="company_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
         <input type="email" name="email" placeholder="dean@yourinstitution.edu.pk" required id="email-input">
         <button type="submit" class="pageclip-form__submit"><span>Request access</span></button>
       </form>
@@ -2789,7 +2790,8 @@
       </div>
 
       <!-- All steps inside ONE form so Pageclip captures everything on submit -->
-      <form class="pageclip-form" id="register-form" action="https://send.pageclip.co/2lYgWddnh3q2871V81UWBg8tsBjqxT9k/talim-register" method="post">
+      <form id="register-form" action="https://talimai.tech/api/register" method="post">
+        <input type="text" name="company_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
 
         <!-- STEP 1: Audience -->
         <div class="form-step active" data-step="1">
@@ -3012,16 +3014,42 @@ function scrollToSection(id){
 // Pageclip auto-handles form submission via its script.
 // We add a success listener to show our themed message + clear the field.
 document.addEventListener('DOMContentLoaded', function(){
-  const form = document.querySelector('.pageclip-form');
+const form = document.getElementById('contact-form');
   if(form){
-    form.addEventListener('pageclip:success', function(e){
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
       const msg = document.getElementById('form-msg');
       const input = document.getElementById('email-input');
-      msg.textContent = '✓ Thank you. We\'ll be in touch within 48 hours.';
-      msg.style.color = 'var(--forest)';
-      input.value = '';
-      setTimeout(()=>{msg.textContent='';},6000);
+      const btn = form.querySelector('button');
+      btn.disabled = true;
+      msg.textContent = 'Sending...';
+      msg.style.color = 'var(--ink-soft)';
+      try{
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            email: input.value,
+            company_url: form.company_url.value
+          })
+        });
+        const data = await res.json();
+        if(data.ok){
+          msg.textContent = '✓ Thank you. We\'ll be in touch within 48 hours.';
+          msg.style.color = 'var(--forest)';
+          input.value = '';
+        } else {
+          throw new Error(data.error || 'failed');
+        }
+      } catch(err){
+        msg.textContent = 'Something went wrong. Please email hello@talimai.tech directly.';
+        msg.style.color = '#b04545';
+      } finally {
+        btn.disabled = false;
+        setTimeout(()=>{msg.textContent='';},6000);
+      }
     });
+  }
     form.addEventListener('pageclip:error', function(e){
       const msg = document.getElementById('form-msg');
       msg.textContent = 'Something went wrong. Please email hello@talimai.tech directly.';
@@ -3395,12 +3423,33 @@ function goRegister(audience, tier, price){
 document.addEventListener('DOMContentLoaded', function(){
   const regForm = document.getElementById('register-form');
   if(regForm){
-    regForm.addEventListener('pageclip:success', function(e){
-      currentStep = 6;
-      updateUI();
-    });
-    regForm.addEventListener('pageclip:error', function(e){
-      alert('Something went wrong submitting your registration. Please try again or email hello@talimai.tech');
+    regForm.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const submitBtn = document.getElementById('btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.querySelector('span').textContent = 'Submitting...';
+      // Gather all form fields
+      const fd = new FormData(regForm);
+      const payload = Object.fromEntries(fd);
+      try{
+        const res = await fetch(regForm.action, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if(data.ok){
+          currentStep = 6;
+          updateUI();
+        } else {
+          throw new Error(data.error || 'failed');
+        }
+      } catch(err){
+        alert('Something went wrong submitting your registration. Please try again or email hello@talimai.tech');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = 'Submit registration';
+      }
     });
   }
 });
