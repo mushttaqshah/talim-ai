@@ -31,25 +31,20 @@
 <meta name="twitter:image:alt" content="Talim AI — The intelligence layer for Pakistani higher education">
 
 <!-- Favicons (add the actual files to your site root) -->
-<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0E3B2A">
-<!-- Sentry — JavaScript error tracking (loads early to catch errors from other scripts) -->
-<script
-  src="https://js.sentry-cdn.com/f397870fe2b73828a29ea635ae32d177.min.js"
-  crossorigin="anonymous"
-></script>
+
 <!-- ============================================================
   ADMIN / SETUP NOTES (for Mushtaq)
   ============================================================
 
   THINGS YOU CAN EDIT YOURSELF (no coding skill needed):
 
-  1. CONTACT FORM: Search for "FORMSPREE_URL" below. Replace with your
-     own Formspree.io endpoint (free signup at formspree.io, takes 2 min).
-     Without this, form will just show a thank-you message.
+  1. CONTACT FORM: Forms now post to your Cloudflare Worker at
+     talimai.tech/api/* which writes leads to your Notion CRM +
+     Cloudflare KV backup. Managed in the Cloudflare dashboard.
 
   2. SOCIAL MEDIA LINKS: Search for "SOCIAL_LINK" below. Replace # with
      your actual LinkedIn, Twitter, Instagram, YouTube URLs.
@@ -68,8 +63,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;500;700&display=swap" rel="stylesheet">
 
-<!-- Pageclip stylesheet (for form loading spinner) -->
-<script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
 
 <!-- Libraries for CV Analyzer -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1288,7 +1281,7 @@
   "foundingDate": "2026",
   "founder": {
     "@type": "Person",
-    "name": "Mushtaq Shah"
+    "name": "Syed Mushtaq Ur Rehman Shah Bukhari"
   },
   "address": {
     "@type": "PostalAddress",
@@ -2379,7 +2372,7 @@
       <div class="founder-content">
         <div class="section-label">Founder</div>
         <h2>Built by an <em>insider</em>, not an outsider.</h2>
-        <p class="founder-bio">Talim AI was founded by Mushtaq Shah, an academic operations strategist who currently coordinates a 1,500-student business program at one of Pakistan's largest private universities. He has led hands-on NBEAC and AACSB accreditation work — collecting evidence, drafting reports, and surviving PRT visits — for years. He built Talim because the tooling didn't exist.</p>
+        <p class="founder-bio">Talim AI was founded by Syed Mushtaq Ur Rehman Shah Bukhari, an academic operations strategist who currently coordinates a 1,500-student business program at one of Pakistan's largest private universities. He has led hands-on NBEAC and AACSB accreditation work — collecting evidence, drafting reports, and surviving PRT visits — for years. He built Talim because the tooling didn't exist.</p>
         <ul class="founder-creds">
           <li><strong>Principal's Coordinator</strong> — Bahria Business School (BBS-IC), Islamabad</li>
           <li><strong>NBEAC Accreditation Lead</strong> — all 7 standards, PRT visit prep</li>
@@ -2440,10 +2433,10 @@
       <div class="cta-urdu" lang="ur" dir="rtl">آپ کا ادارہ، ہمارا نظام</div>
       <p class="cta-sub">We're working with a small cohort of Pakistani HEIs in 2026 to refine the platform before public launch. Add your email — we'll reach out personally within 48 hours.</p>
       <!-- Pageclip-powered contact form. Submissions go to Pageclip dashboard + email. -->
-       <form class="cta-form" id="contact-form" action="https://talimai.tech/api/subscribe" method="post">
+      <form class="cta-form" id="contact-form" action="https://talimai.tech/api/subscribe" method="post">
         <input type="text" name="company_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
         <input type="email" name="email" placeholder="dean@yourinstitution.edu.pk" required id="email-input">
-        <button type="submit" class="pageclip-form__submit"><span>Request access</span></button>
+        <button type="submit"><span>Request access</span></button>
       </form>
       <div class="form-message" id="form-msg"></div>
     </div>
@@ -2928,7 +2921,7 @@
             </div>
             <h2>Registration received.</h2>
             <p>Thank you. Your details are with our team. We'll personally contact you within <strong>48 hours</strong> with your custom proposal and secure payment instructions.</p>
-           <a href="https://wa.me/923096032223" target="_blank" style="color:var(--forest);font-weight:600;">+92 309 6032223</a>
+            <p>For urgent inquiries, WhatsApp us at <a href="https://wa.me/923096032223" target="_blank" style="color:var(--forest);font-weight:600;">+92 309 6032223</a>.</p>
           </div>
         </div>
 
@@ -2936,7 +2929,7 @@
         <div class="form-nav" id="form-nav">
           <button type="button" class="form-back" onclick="prevStep()" id="btn-back" disabled>← Back</button>
           <button type="button" class="form-next" onclick="nextStep()" id="btn-next">Continue →</button>
-          <button type="submit" class="form-next pageclip-form__submit" id="btn-submit" style="display:none;"><span>Submit registration</span></button>
+          <button type="submit" class="form-next" id="btn-submit" style="display:none;"><span>Submit registration</span></button>
         </div>
 
       </form>
@@ -2977,14 +2970,14 @@
       </div>
       <div class="footer-col">
         <h5>Contact</h5>
-        <a href="mailto:mushttaqshah@gmail.com">mushttaqshah@gmail.com</a>
+        <a href="mailto:hello@talim.ai">hello@talim.ai</a>
         <a onclick="scrollToSection('contact')">Request access</a>
         <a href="https://github.com" target="_blank">GitHub</a>
         <a onclick="scrollToSection('contact')">Press inquiries</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Talim AI · Islamabad, Pakistan</span>
+      <span>© 2026 Talim AI · Founded by Syed Mushtaq Ur Rehman Shah Bukhari · Islamabad, Pakistan</span>
       <span>Built with care · <span lang="ur" dir="rtl">بنایا گیا</span></span>
     </div>
   </div>
@@ -3010,11 +3003,10 @@ function scrollToSection(id){
   },100);
 }
 
-// ============== CONTACT FORM (Pageclip-powered) ==============
-// Pageclip auto-handles form submission via its script.
-// We add a success listener to show our themed message + clear the field.
+// ============== CONTACT FORM (Cloudflare Worker) ==============
+// Posts the email to talimai.tech/api/subscribe → Notion + KV backup.
 document.addEventListener('DOMContentLoaded', function(){
-const form = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form');
   if(form){
     form.addEventListener('submit', async function(e){
       e.preventDefault();
@@ -3048,13 +3040,6 @@ const form = document.getElementById('contact-form');
         btn.disabled = false;
         setTimeout(()=>{msg.textContent='';},6000);
       }
-    });
-  }
-    form.addEventListener('pageclip:error', function(e){
-      const msg = document.getElementById('form-msg');
-      msg.textContent = 'Something went wrong. Please email hello@talimai.tech directly.';
-      msg.style.color = '#b04545';
-      setTimeout(()=>{msg.textContent='';},6000);
     });
   }
 });
@@ -3419,7 +3404,7 @@ function goRegister(audience, tier, price){
   },150);
 }
 
-// Register form Pageclip handlers
+// Register form handler (Cloudflare Worker)
 document.addEventListener('DOMContentLoaded', function(){
   const regForm = document.getElementById('register-form');
   if(regForm){
@@ -3428,7 +3413,6 @@ document.addEventListener('DOMContentLoaded', function(){
       const submitBtn = document.getElementById('btn-submit');
       submitBtn.disabled = true;
       submitBtn.querySelector('span').textContent = 'Submitting...';
-      // Gather all form fields
       const fd = new FormData(regForm);
       const payload = Object.fromEntries(fd);
       try{
@@ -3454,10 +3438,5 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
-<!-- Pageclip script (powers the form on contact section) -->
-<script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
-<!-- 100% privacy-first analytics -->
-<script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
 </body>
 </html>
