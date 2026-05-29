@@ -1,203 +1,244 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Opportunities for Pakistani Youth — Scholarships, Loans, Skills & Jobs | Talim AI</title>
-<meta name="description" content="Free step-by-step guides to Pakistan's biggest youth opportunities: Kamyab Jawan loans, PMYP scholarships, laptop schemes, skills training, internships and exam prep. Eligibility, documents, deadlines and how to apply.">
-<meta name="keywords" content="Pakistan youth opportunities, Kamyab Jawan loan, PMYP scholarships, laptop scheme, skills training Pakistan, internships, FPSC PPSC prep, scholarships for Pakistani students, how to apply">
-<meta name="author" content="Talim AI">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<link rel="canonical" href="https://talimai.tech/opportunities/">
+/* ============================================================
+   Talim AI — Opportunities Hub shared stylesheet
+   Matches the main talimai.tech design system.
+   Linked by every page under /opportunities/ as /opportunities/hub.css
+   ============================================================ */
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Talim AI">
-<meta property="og:locale" content="en_PK">
-<meta property="og:locale:alternate" content="ur_PK">
-<meta property="og:title" content="Opportunities for Pakistani Youth — Scholarships, Loans, Skills & Jobs">
-<meta property="og:description" content="Free step-by-step guides to Pakistan's biggest youth opportunities: loans, scholarships, laptops, skills, internships and exam prep. Eligibility, documents, deadlines and how to apply.">
-<meta property="og:url" content="https://talimai.tech/opportunities/">
-<meta property="og:image" content="https://talimai.tech/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Opportunities for Pakistani Youth — Talim AI">
-<meta name="twitter:description" content="Free step-by-step guides to Pakistan's biggest youth opportunities. Eligibility, documents, deadlines and how to apply.">
-<meta name="twitter:image" content="https://talimai.tech/og-image.png">
-
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0E3B2A">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/opportunities/hub.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://talimai.tech/#organization",
-      "name": "Talim AI",
-      "url": "https://talimai.tech/",
-      "logo": "https://talimai.tech/og-image.png",
-      "founder": { "@type": "Person", "name": "Syed Mushtaq Ur Rehman Shah Bukhari" }
-    },
-    {
-      "@type": "CollectionPage",
-      "@id": "https://talimai.tech/opportunities/#webpage",
-      "url": "https://talimai.tech/opportunities/",
-      "name": "Opportunities for Pakistani Youth — Scholarships, Loans, Skills & Jobs",
-      "description": "Free step-by-step guides to Pakistan's biggest youth opportunities: loans, scholarships, laptops, skills training, internships and exam prep.",
-      "isPartOf": { "@id": "https://talimai.tech/#organization" },
-      "inLanguage": "en-PK"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://talimai.tech/" },
-        { "@type": "ListItem", "position": 2, "name": "Opportunities", "item": "https://talimai.tech/opportunities/" }
-      ]
-    }
-  ]
+:root{
+  --cream:#F5F1E8;
+  --cream-deep:#EEE7D6;
+  --cream-warm:#F9F5EC;
+  --ink:#1A1F1A;
+  --ink-soft:#3A3F3A;
+  --ink-mute:#6B6F6B;
+  --forest:#0E3B2A;
+  --forest-deep:#072017;
+  --forest-soft:#1A5C40;
+  --gold:#C49A4C;
+  --gold-soft:#D9B679;
+  --gold-deep:#9C7838;
+  --terracotta:#B0623E;
+  --rust:#A04B2A;
+  --line:rgba(26,31,26,0.12);
+  --line-strong:rgba(26,31,26,0.25);
+  --shadow-card:0 1px 2px rgba(26,31,26,0.04), 0 4px 16px rgba(26,31,26,0.04);
+  --shadow-strong:0 2px 4px rgba(26,31,26,0.06), 0 12px 32px rgba(26,31,26,0.10);
 }
-</script>
-</head>
-<body>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+.urdu{font-family:'Noto Nastaliq Urdu',serif;direction:rtl;line-height:2;}
 
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="/">
-      <span class="brand-mark">T<span class="dot">.</span></span>
-      <span class="brand-name">Talim&nbsp;AI</span>
-    </a>
-    <nav class="header-nav">
-      <a href="/">Home</a>
-      <a href="/opportunities/">Opportunities</a>
-      <a href="/#cv-analyzer">CV Analyzer</a>
-      <a class="header-cta" href="/#contact">Get in touch</a>
-    </nav>
-  </div>
-</header>
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.5rem;}
+.wrap-narrow{max-width:760px;margin:0 auto;padding:0 1.5rem;}
 
-<main>
-<div class="wrap">
+/* ---------- Header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,241,232,0.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+.brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;background:var(--forest);
+  color:var(--cream);display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-weight:600;font-size:1.1rem;
+}
+.brand-mark .dot{color:var(--gold);}
+.brand-name{font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;color:var(--ink);}
+.header-nav{display:flex;gap:1.5rem;align-items:center;}
+.header-nav a{text-decoration:none;color:var(--ink-soft);font-size:0.92rem;font-weight:500;transition:color 0.2s;}
+.header-nav a:hover{color:var(--forest);}
+.header-cta{
+  background:var(--forest);color:var(--cream)!important;
+  padding:0.5rem 1.1rem;border-radius:999px;font-size:0.88rem;
+}
+.header-cta:hover{background:var(--forest-deep);}
+@media(max-width:640px){.header-nav a:not(.header-cta){display:none;}}
 
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a><span>›</span>Opportunities
-  </nav>
+/* ---------- Breadcrumb ---------- */
+.breadcrumb{padding:1.25rem 0 0;font-size:0.85rem;color:var(--ink-mute);}
+.breadcrumb a{text-decoration:none;color:var(--forest-soft);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb span{margin:0 0.4rem;opacity:0.6;}
 
-  <section class="hub-hero">
-    <span class="eyebrow">Pakistan Youth Opportunities</span>
-    <h1>Every opportunity for Pakistan's youth — <span class="accent">explained simply</span></h1>
-    <p>Clear, free, step-by-step guides to the scholarships, loans, skills programs, internships and exams that can change a student's future. We break down who qualifies, what documents you need, and exactly how to apply — then point you to the official source.</p>
-  </section>
+/* ---------- Hub hero ---------- */
+.hub-hero{padding:3rem 0 2.5rem;text-align:center;}
+.eyebrow{
+  display:inline-block;font-family:'Fraunces',serif;font-size:0.78rem;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-deep);
+  margin-bottom:1rem;
+}
+.hub-hero h1{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(2.1rem,4.5vw,3.4rem);line-height:1.1;color:var(--forest-deep);
+  margin-bottom:1rem;
+}
+.hub-hero p{
+  max-width:620px;margin:0 auto;font-size:1.08rem;color:var(--ink-soft);
+}
+.hub-hero .accent{color:var(--gold-deep);}
 
-  <section aria-labelledby="cats">
-    <p class="section-label">Browse by need</p>
-    <h2 class="section-title" id="cats">What are you looking for?</h2>
-    <div class="cat-grid">
+/* ---------- Category grid ---------- */
+.section-label{
+  font-family:'Fraunces',serif;font-size:0.82rem;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--gold-deep);text-align:center;margin-bottom:0.6rem;
+}
+.section-title{
+  font-family:'Fraunces',serif;font-weight:500;font-size:clamp(1.6rem,3vw,2.3rem);
+  color:var(--forest-deep);text-align:center;margin-bottom:2.5rem;
+}
+.cat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:4rem;
+}
+@media(max-width:860px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.cat-grid{grid-template-columns:1fr;}}
+.cat-card{
+  display:block;text-decoration:none;background:var(--cream-warm);
+  border:1px solid var(--line);border-radius:18px;padding:1.6rem;
+  box-shadow:var(--shadow-card);transition:transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-strong);border-color:var(--gold-soft);}
+.cat-icon{
+  width:46px;height:46px;border-radius:12px;background:var(--forest);color:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.4rem;
+}
+.cat-card h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.3rem;color:var(--forest-deep);margin-bottom:0.4rem;}
+.cat-card p{font-size:0.92rem;color:var(--ink-soft);margin-bottom:0.9rem;}
+.cat-count{font-size:0.8rem;font-weight:600;color:var(--gold-deep);letter-spacing:0.04em;}
 
-      <a class="cat-card" href="#scholarships">
-        <div class="cat-icon">🎓</div>
-        <h3>Scholarships &amp; Education</h3>
-        <p>Merit and need-based scholarships, laptop schemes, and education funding for students across Pakistan.</p>
-        <span class="cat-count">Guides inside →</span>
-      </a>
+/* ---------- Featured guides list ---------- */
+.guide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-bottom:4rem;}
+@media(max-width:720px){.guide-list{grid-template-columns:1fr;}}
+.guide-card{
+  display:flex;flex-direction:column;text-decoration:none;background:var(--cream-warm);
+  border:1px solid var(--line);border-radius:16px;padding:1.4rem;
+  box-shadow:var(--shadow-card);transition:transform 0.25s, box-shadow 0.25s;
+}
+.guide-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-strong);}
+.guide-tag{
+  align-self:flex-start;font-size:0.72rem;font-weight:600;letter-spacing:0.05em;
+  text-transform:uppercase;color:var(--forest-soft);background:rgba(26,92,64,0.1);
+  padding:0.25rem 0.6rem;border-radius:999px;margin-bottom:0.8rem;
+}
+.guide-card h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.15rem;color:var(--forest-deep);margin-bottom:0.4rem;line-height:1.3;}
+.guide-card p{font-size:0.9rem;color:var(--ink-soft);margin-bottom:0.9rem;flex:1;}
+.guide-card .read{font-size:0.85rem;font-weight:600;color:var(--gold-deep);}
 
-      <a class="cat-card" href="#loans">
-        <div class="cat-icon">💰</div>
-        <h3>Loans &amp; Funding</h3>
-        <p>Youth business and agriculture loans, startup capital, and low-markup financing to build your own venture.</p>
-        <span class="cat-count">Guides inside →</span>
-      </a>
+/* ---------- Guide article page ---------- */
+.article-head{padding:1.5rem 0 1rem;}
+.article-head h1{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.12;color:var(--forest-deep);
+  margin:0.6rem 0 0.8rem;
+}
+.article-meta{display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;font-size:0.82rem;color:var(--ink-mute);}
+.article-meta .pill{background:rgba(26,92,64,0.1);color:var(--forest-soft);padding:0.25rem 0.7rem;border-radius:999px;font-weight:600;}
 
-      <a class="cat-card" href="#skills">
-        <div class="cat-icon">🛠️</div>
-        <h3>Skills &amp; Training</h3>
-        <p>Free technical and vocational courses, digital skills, and certification programs that lead to real jobs.</p>
-        <span class="cat-count">Coming soon</span>
-      </a>
+/* At a glance box */
+.glance{
+  background:var(--forest);color:var(--cream);border-radius:18px;
+  padding:1.6rem 1.8rem;margin:1.5rem 0 2rem;box-shadow:var(--shadow-strong);
+}
+.glance h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.2rem;color:var(--gold-soft);margin-bottom:1rem;}
+.glance-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem 1.5rem;}
+@media(max-width:560px){.glance-grid{grid-template-columns:1fr;}}
+.glance-item .k{font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold-soft);opacity:0.85;margin-bottom:0.2rem;}
+.glance-item .v{font-size:0.98rem;color:var(--cream);font-weight:500;}
 
-      <a class="cat-card" href="#jobs">
-        <div class="cat-icon">💼</div>
-        <h3>Jobs &amp; Internships</h3>
-        <p>Internship portals, fresh-graduate programs, and job resources tailored to young Pakistanis.</p>
-        <span class="cat-count">Coming soon</span>
-      </a>
+/* Article body */
+.article-body{padding-bottom:2rem;}
+.article-body h2{
+  font-family:'Fraunces',serif;font-weight:500;font-size:1.6rem;color:var(--forest-deep);
+  margin:2.2rem 0 0.9rem;padding-top:0.5rem;
+}
+.article-body h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.2rem;color:var(--forest);margin:1.4rem 0 0.6rem;}
+.article-body p{margin-bottom:1rem;color:var(--ink-soft);font-size:1.02rem;}
+.article-body ul,.article-body ol{margin:0 0 1.2rem 1.3rem;color:var(--ink-soft);}
+.article-body li{margin-bottom:0.5rem;font-size:1.02rem;}
+.article-body strong{color:var(--ink);font-weight:600;}
 
-      <a class="cat-card" href="#leadership">
-        <div class="cat-icon">🌱</div>
-        <h3>Leadership &amp; Engagement</h3>
-        <p>Youth councils, volunteering, civic and environmental programs that build leadership and networks.</p>
-        <span class="cat-count">Coming soon</span>
-      </a>
+/* Step list */
+.steps{list-style:none;margin:0 0 1.5rem;counter-reset:step;}
+.steps li{
+  position:relative;padding:0 0 1.3rem 3rem;margin:0;counter-increment:step;
+}
+.steps li::before{
+  content:counter(step);position:absolute;left:0;top:0;
+  width:2rem;height:2rem;border-radius:50%;background:var(--gold);color:var(--forest-deep);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;
+  font-family:'Fraunces',serif;
+}
+.steps li:not(:last-child)::after{
+  content:"";position:absolute;left:0.97rem;top:2.1rem;bottom:0.2rem;width:2px;background:var(--line-strong);
+}
+.steps li h3{margin:0.2rem 0 0.3rem;font-size:1.1rem;}
+.steps li p{margin-bottom:0;font-size:0.98rem;}
 
-      <a class="cat-card" href="#exam-prep">
-        <div class="cat-icon">📚</div>
-        <h3>Exam Prep</h3>
-        <p>Guidance for FPSC, PPSC, MDCAT, NTS and GAT — syllabi, timelines and preparation strategies.</p>
-        <span class="cat-count">Coming soon</span>
-      </a>
+/* Official source callout */
+.official{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;
+  background:var(--cream-warm);border:1.5px solid var(--gold-soft);border-radius:16px;
+  padding:1.3rem 1.6rem;margin:2rem 0;
+}
+.official .txt h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.1rem;color:var(--forest-deep);margin-bottom:0.2rem;}
+.official .txt p{font-size:0.88rem;color:var(--ink-mute);margin:0;}
+.btn-gold{
+  background:var(--gold);color:var(--forest-deep);text-decoration:none;font-weight:700;
+  padding:0.75rem 1.4rem;border-radius:999px;font-size:0.92rem;white-space:nowrap;
+  transition:background 0.2s,transform 0.2s;
+}
+.btn-gold:hover{background:var(--gold-soft);transform:translateY(-2px);}
 
-    </div>
-  </section>
+/* FAQ */
+.faq details{
+  border:1px solid var(--line);border-radius:12px;padding:0.2rem 1.1rem;margin-bottom:0.8rem;
+  background:var(--cream-warm);
+}
+.faq summary{
+  cursor:pointer;font-family:'Fraunces',serif;font-weight:500;font-size:1.05rem;
+  color:var(--forest-deep);padding:0.9rem 0;list-style:none;display:flex;justify-content:space-between;align-items:center;
+}
+.faq summary::-webkit-details-marker{display:none;}
+.faq summary::after{content:"+";font-size:1.4rem;color:var(--gold-deep);font-weight:400;}
+.faq details[open] summary::after{content:"−";}
+.faq details p{padding:0 0 1rem;color:var(--ink-soft);font-size:0.98rem;margin:0;}
 
-  <section id="loans" aria-labelledby="loans-h">
-    <p class="section-label">Loans &amp; Funding</p>
-    <h2 class="section-title" id="loans-h">Start or grow your own business</h2>
-    <div class="guide-list">
-      <a class="guide-card" href="/opportunities/kamyab-jawan-business-loan/">
-        <span class="guide-tag">Kamyab Jawan / PMYP</span>
-        <h3>PM Youth Business &amp; Agriculture Loan (Kamyab Jawan) 2026</h3>
-        <p>Loans from PKR 0.5M to 7.5M for young entrepreneurs and farmers — with a 0% markup tier, a 25% women's quota, and a 100% online application. Full eligibility, documents and step-by-step guide.</p>
-        <span class="read">Read the full guide →</span>
-      </a>
-    </div>
-  </section>
+/* Talim CTA block */
+.talim-cta{
+  background:linear-gradient(135deg,var(--forest) 0%,var(--forest-deep) 100%);
+  color:var(--cream);border-radius:20px;padding:2.2rem;text-align:center;margin:2.5rem 0;
+}
+.talim-cta h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;color:var(--cream);margin-bottom:0.6rem;}
+.talim-cta p{font-size:0.98rem;color:rgba(245,241,232,0.85);max-width:520px;margin:0 auto 1.3rem;}
+.talim-cta .btn-gold{display:inline-block;}
 
-  <section id="scholarships" aria-labelledby="sch-h">
-    <p class="section-label">Scholarships &amp; Education</p>
-    <h2 class="section-title" id="sch-h">Fund your studies &amp; tools</h2>
-    <div class="guide-list">
-      <a class="guide-card" href="/opportunities/pmyp-laptop-scheme/">
-        <span class="guide-tag">PMYP</span>
-        <h3>PM Youth Laptop Scheme 2026 — Eligibility &amp; How to Apply</h3>
-        <p>The government's merit-based laptop programme for enrolled students. Learn who qualifies, how merit is decided, the application steps, and how to avoid common rejection mistakes.</p>
-        <span class="read">Read the full guide →</span>
-      </a>
-    </div>
-  </section>
+/* Related */
+.related{margin:2.5rem 0;}
+.related h2{font-family:'Fraunces',serif;font-weight:500;font-size:1.4rem;color:var(--forest-deep);margin-bottom:1.2rem;}
 
-  <div class="talim-cta">
-    <h3>Need help choosing the right path?</h3>
-    <p>Talim AI helps students sharpen their CVs, find scholarships, and plan careers. Try our free CV Analyzer, or talk to our team about mentorship.</p>
-    <a class="btn-gold" href="/#cv-analyzer">Try the free CV Analyzer</a>
-  </div>
+/* Disclaimer */
+.disclaimer{
+  background:var(--cream-deep);border-left:3px solid var(--gold);border-radius:8px;
+  padding:1.1rem 1.3rem;margin:2rem 0;font-size:0.86rem;color:var(--ink-mute);line-height:1.6;
+}
+.disclaimer strong{color:var(--ink-soft);}
 
-  <div class="disclaimer">
-    <strong>An independent guide.</strong> Talim AI is an independent education-technology platform. We are not affiliated with, endorsed by, or an official channel of the Prime Minister's Youth Programme (PMYP), the Higher Education Commission (HEC), or any government body. We summarise publicly available information to help students understand and access these programmes, and we always link to the official source. Programme rules, amounts and deadlines change — always confirm details on the official website before applying. Applications to government schemes are free; never pay anyone who asks for a "commission".
-  </div>
-
-</div>
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <span>© 2026 Talim AI · Founded by Syed Mushtaq Ur Rehman Shah Bukhari</span>
-    <div class="footer-links">
-      <a href="/">Home</a>
-      <a href="/opportunities/">Opportunities</a>
-      <a href="https://wa.me/923096032223">WhatsApp</a>
-      <a href="mailto:hello@talimai.tech">Email</a>
-    </div>
-  </div>
-</footer>
-
-</body>
-</html>
+/* ---------- Footer ---------- */
+.site-footer{
+  background:var(--forest-deep);color:rgba(245,241,232,0.7);
+  padding:2.5rem 0;margin-top:3rem;font-size:0.88rem;
+}
+.site-footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;}
+.site-footer a{color:var(--gold-soft);text-decoration:none;}
+.site-footer a:hover{text-decoration:underline;}
+.footer-links{display:flex;gap:1.4rem;flex-wrap:wrap;}
