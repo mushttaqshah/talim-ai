@@ -621,6 +621,10 @@
     color:var(--gold-soft);position:relative;overflow:hidden;
     font-variation-settings:"opsz" 144;
   }
+  .founder-photo img{
+    width:100%;height:100%;object-fit:cover;object-position:center top;
+    display:block;position:relative;z-index:1;
+  }
   .founder-photo::after{
     content:'';position:absolute;inset:0;
     background:radial-gradient(circle at 30% 30%, rgba(245,241,232,0.1) 0%, transparent 60%);
@@ -1372,17 +1376,56 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://talimai.tech/#founder",
+  "name": "Syed Mushtaq Ur Rehman Shah Bukhari",
+  "alternateName": ["Mushtaq Shah", "Mushtaq Shah Bukhari", "Syed Mushtaq"],
+  "jobTitle": "Founder & CEO",
+  "description": "Founder & CEO of Talim AI and an academic operations strategist specialising in NBEAC and AACSB accreditation, faculty qualification, and assurance of learning for Pakistani higher education.",
+  "image": "https://talimai.tech/founder-mushtaq-shah.jpg",
+  "url": "https://talimai.tech/",
+  "email": "mushttaqshah@gmail.com",
+  "worksFor": { "@id": "https://talimai.tech/#organization" },
+  "founderOf": { "@id": "https://talimai.tech/#organization" },
+  "homeLocation": {
+    "@type": "Place",
+    "address": { "@type": "PostalAddress", "addressLocality": "Islamabad", "addressCountry": "PK" }
+  },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "National University of Sciences & Technology (NUST)" },
+    { "@type": "CollegeOrUniversity", "name": "Cholistan University of Veterinary & Animal Sciences" }
+  ],
+  "knowsAbout": [
+    "NBEAC Accreditation",
+    "AACSB Accreditation",
+    "HEC Compliance",
+    "Assurance of Learning",
+    "Academic Operations",
+    "Higher Education Quality Assurance"
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/mushtaqshah"
+  ]
+}
+</script>
+
+<!-- ============ STRUCTURED DATA (JSON-LD) ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://talimai.tech/#organization",
   "name": "Talim AI",
   "alternateName": "تعلیم",
   "url": "https://talimai.tech",
   "logo": "https://talimai.tech/logo.png",
+  "image": "https://talimai.tech/og-image.png",
   "description": "AI-powered accreditation and compliance platform for Pakistani higher education. Automates NBEAC, AACSB, and HEC compliance.",
   "foundingDate": "2026",
-  "founder": {
-    "@type": "Person",
-    "name": "Syed Mushtaq Ur Rehman Shah Bukhari"
-  },
+  "founder": { "@id": "https://talimai.tech/#founder" },
+  "sameAs": [
+    "https://www.linkedin.com/in/mushtaqshah"
+  ],
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Islamabad",
@@ -2469,11 +2512,14 @@
 <section class="founder" id="founder">
   <div class="container">
     <div class="founder-grid">
-      <div class="founder-photo">M</div>
+      <div class="founder-photo">
+        <img src="/founder-mushtaq-shah.jpg" width="487" height="609" loading="lazy"
+             alt="Syed Mushtaq Ur Rehman Shah Bukhari — Founder & CEO of Talim AI">
+      </div>
       <div class="founder-content">
-        <div class="section-label">Founder</div>
+        <div class="section-label">Founder &amp; CEO</div>
         <h2>Built by an <em>insider</em>, not an outsider.</h2>
-        <p class="founder-bio">Talim AI was founded by Syed Mushtaq Ur Rehman Shah Bukhari, an academic operations strategist who currently coordinates a 1,500-student business program at one of Pakistan's largest private universities. He has led hands-on NBEAC and AACSB accreditation work — collecting evidence, drafting reports, and surviving PRT visits — for years. He built Talim because the tooling didn't exist.</p>
+        <p class="founder-bio"><strong>Syed Mushtaq Ur Rehman Shah Bukhari</strong> is the Founder &amp; CEO of Talim AI. An academic operations strategist, he currently coordinates a 1,500-student business program at one of Pakistan's largest private universities. He has led hands-on NBEAC and AACSB accreditation work — collecting evidence, drafting reports, and surviving PRT visits — for years. He built Talim AI because the tooling didn't exist.</p>
         <ul class="founder-creds">
           <li><strong>Principal's Coordinator</strong> — Bahria Business School (BBS-IC), Islamabad</li>
           <li><strong>NBEAC Accreditation Lead</strong> — all 7 standards, PRT visit prep</li>
