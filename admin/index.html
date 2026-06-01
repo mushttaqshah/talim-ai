@@ -103,6 +103,7 @@
   <div class="tabs">
     <button class="tab active" data-tab="guides" onclick="switchTab('guides')">➕ New Guide</button>
     <button class="tab" data-tab="files" onclick="switchTab('files')">📝 Pages &amp; Files</button>
+    <button class="tab" data-tab="media" onclick="switchTab('media')">🖼️ Media</button>
     <button class="tab" data-tab="leads" onclick="switchTab('leads')">📥 Leads</button>
     <button class="tab" data-tab="help" onclick="switchTab('help')">❓ Help</button>
   </div>
@@ -195,25 +196,63 @@
   <!-- FILES TAB -->
   <div class="panel hidden" id="tab-files">
     <h2>Pages &amp; Files</h2>
-    <p class="sub">Edit any page's text or sections directly. Every save is committed to GitHub and is reversible from version history.</p>
-    <div class="banner">⚠️ Advanced. Editing HTML carelessly can break a page's layout. Make small changes. If something looks wrong, your previous version is always safe in GitHub's history (Repo → that file → History).</div>
+    <p class="sub">Edit any page's text or sections directly. Every save is committed to GitHub and is reversible.</p>
+    <div class="banner">⚠️ Advanced. Editing HTML carelessly can break a page's layout — make small changes. If something looks wrong, use <b>History</b> (when a file is open) to restore the previous version in one click. Nothing is ever lost.</div>
+
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;">
-        <strong style="font-size:0.9rem;">Files in your site</strong>
-        <button class="btn btn-sm btn-ghost" onclick="loadTree()">↻ Refresh</button>
+      <label>🔎 Find text anywhere in the site</label>
+      <div style="display:flex;gap:0.5rem;">
+        <input id="searchQ" placeholder="e.g. 150,000  or  founded by  or  WhatsApp" onkeydown="if(event.key==='Enter')doSearch()">
+        <button class="btn btn-sm" onclick="doSearch()" style="white-space:nowrap;">Search</button>
+      </div>
+      <div id="searchResults" style="margin-top:0.8rem;"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;flex-wrap:wrap;gap:0.5rem;">
+        <strong style="font-size:0.9rem;">All files in your site</strong>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="btn btn-sm btn-gold" onclick="newPage()">＋ New page</button>
+          <button class="btn btn-sm btn-ghost" onclick="loadTree()">↻ Refresh</button>
+        </div>
       </div>
       <div class="file-list" id="fileList"><div class="file-item">Loading…</div></div>
     </div>
+
     <div class="card hidden" id="editorCard">
       <label>Editing: <code id="editPath"></code></label>
       <textarea class="editor" id="editor" spellcheck="false"></textarea>
       <label>What did you change? (short note)</label>
       <input id="commitMsg" placeholder="e.g. Updated pricing">
-      <div style="margin-top:1rem;display:flex;gap:0.6rem;flex-wrap:wrap;">
+      <div style="margin-top:1rem;display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center;">
         <button class="btn" id="saveBtn" onclick="saveFile()">Save &amp; publish</button>
         <button class="btn btn-ghost" onclick="closeEditor()">Cancel</button>
-        <button class="btn btn-red btn-sm" style="margin-left:auto;" onclick="deleteFile()">Delete this file</button>
+        <button class="btn btn-ghost btn-sm" onclick="loadHistory()">🕘 History</button>
+        <button class="btn btn-red btn-sm" style="margin-left:auto;" onclick="deleteFile()">Delete file</button>
       </div>
+      <div id="historyBox" style="margin-top:1rem;"></div>
+    </div>
+  </div>
+
+  <!-- MEDIA TAB -->
+  <div class="panel hidden" id="tab-media">
+    <h2>Media &amp; images</h2>
+    <p class="sub">Upload images (logos, founder photo, banners) straight to your site. Use the link it gives you anywhere on the site.</p>
+    <div class="card">
+      <label>Upload an image</label>
+      <input type="file" id="imgFile" accept="image/*">
+      <label>Save as (file name on site)</label>
+      <input id="imgName" placeholder="e.g. founder-mushtaq-shah.jpg  or  images/banner.png">
+      <div class="hint">Use a clear name. To replace an existing image, use the same name. Goes live in ~1 min.</div>
+      <div style="margin-top:1rem;"><button class="btn btn-gold" id="upBtn" onclick="uploadImage()">Upload image</button></div>
+      <p id="upResult" class="muted" style="margin-top:0.8rem;"></p>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;">
+        <strong style="font-size:0.9rem;">Images on your site</strong>
+        <button class="btn btn-sm btn-ghost" onclick="loadMedia()">↻ Refresh</button>
+      </div>
+      <div class="file-list" id="mediaList"><div class="file-item">Click refresh to load.</div></div>
     </div>
   </div>
 
@@ -295,6 +334,7 @@ function switchTab(name){
   document.getElementById("tab-"+name).classList.remove("hidden");
   if(name==="leads") loadLeads();
   if(name==="files") loadTree();
+  if(name==="media") loadMedia();
 }
 
 // ---------- Guides ----------
@@ -368,6 +408,99 @@ async function deleteFile(){
     toast("Deleted.");
     closeEditor(); loadTree();
   }catch(e){ toast(e.message, true); }
+}
+
+// ---------- Find in site ----------
+async function doSearch(){
+  const q = document.getElementById("searchQ").value.trim();
+  const box = document.getElementById("searchResults");
+  if(q.length < 2){ box.innerHTML='<span class="muted">Type at least 2 characters.</span>'; return; }
+  box.innerHTML = '<span class="muted"><span class="spin" style="border-top-color:var(--forest)"></span> Searching…</span>';
+  try{
+    const r = await api("/admin/search", { method:"POST", body: JSON.stringify({ query:q }) });
+    if(!r.matches.length){ box.innerHTML='<span class="muted">No matches found.</span>'; return; }
+    box.innerHTML = r.matches.map(m =>
+      '<div class="file-item"><div style="min-width:0;"><code>'+m.path+'</code> <span class="pill">'+m.count+'×</span>'+
+      '<div class="muted" style="font-size:0.74rem;margin-top:2px;">…'+esc(m.snippet)+'…</div></div>'+
+      '<button class="btn btn-sm btn-ghost" onclick="openFile(\''+m.path.replace(/'/g,"\\'")+'\')">Open</button></div>'
+    ).join("");
+  }catch(e){ box.innerHTML='<span style="color:var(--red)">'+e.message+'</span>'; }
+}
+
+// ---------- New page ----------
+function newPage(){
+  const path = prompt("New page path (e.g. about/index.html or terms.html):");
+  if(!path) return;
+  const clean = path.replace(/^\/+/,"").trim();
+  if(!/\.(html|css|xml|md|txt|json|js)$/i.test(clean)){ toast("Use an allowed file type (.html, .css, .md, etc.)", true); return; }
+  currentSha = null;
+  document.getElementById("editPath").textContent = clean;
+  document.getElementById("editor").value =
+    clean.endsWith(".html")
+      ? "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>New Page | Talim AI</title>\n<link rel=\"stylesheet\" href=\"/opportunities/hub.css\">\n</head>\n<body>\n<header class=\"site-header\"><div class=\"wrap\"><a class=\"brand\" href=\"/\"><span class=\"brand-mark\">T<span class=\"dot\">.</span></span><span class=\"brand-name\">Talim&nbsp;AI</span></a></div></header>\n<main><div class=\"wrap-narrow\">\n  <h1>New page</h1>\n  <p>Edit this content.</p>\n</div></main>\n</body>\n</html>\n"
+      : "";
+  document.getElementById("commitMsg").value = "Create " + clean;
+  document.getElementById("historyBox").innerHTML = "";
+  document.getElementById("editorCard").classList.remove("hidden");
+  document.getElementById("editorCard").scrollIntoView({behavior:"smooth"});
+  toast("New page ready — edit, then Save & publish.");
+}
+
+// ---------- History / restore ----------
+async function loadHistory(){
+  const path = document.getElementById("editPath").textContent;
+  const box = document.getElementById("historyBox");
+  box.innerHTML = '<span class="muted"><span class="spin" style="border-top-color:var(--forest)"></span> Loading versions…</span>';
+  try{
+    const r = await api("/admin/history?path=" + encodeURIComponent(path));
+    if(!r.history.length){ box.innerHTML='<span class="muted">No history yet (new file).</span>'; return; }
+    box.innerHTML = '<div style="font-size:0.82rem;font-weight:600;color:var(--forest);margin-bottom:0.5rem;">Previous versions — click Restore to load it into the editor</div>' +
+      r.history.map(h =>
+        '<div class="file-item"><div style="min-width:0;"><span style="font-size:0.8rem;">'+ (h.date? new Date(h.date).toLocaleString() : h.sha.slice(0,7)) +
+        '</span><div class="muted" style="font-size:0.74rem;">'+esc((h.message||"").split("\n")[0]).slice(0,70)+'</div></div>'+
+        '<button class="btn btn-sm btn-ghost" onclick="restoreVersion(\''+h.sha+'\')">Restore</button></div>'
+      ).join("");
+  }catch(e){ box.innerHTML='<span style="color:var(--red)">'+e.message+'</span>'; }
+}
+async function restoreVersion(sha){
+  const path = document.getElementById("editPath").textContent;
+  try{
+    const r = await api("/admin/file-at?path=" + encodeURIComponent(path) + "&sha=" + sha);
+    document.getElementById("editor").value = r.content;
+    document.getElementById("commitMsg").value = "Restore previous version of " + path;
+    toast("Loaded that version. Review it, then click Save & publish to make it live.");
+    document.getElementById("editor").scrollIntoView({behavior:"smooth"});
+  }catch(e){ toast(e.message, true); }
+}
+
+// ---------- Media ----------
+async function loadMedia(){
+  const box = document.getElementById("mediaList");
+  box.innerHTML = '<div class="file-item">Loading…</div>';
+  try{
+    // reuse tree, but the tree endpoint only lists editable types; fetch full tree via search-free approach:
+    const r = await api("/admin/tree");
+    // tree returns text files only; images are listed via a dedicated filter using the same endpoint is not possible,
+    // so we show a hint + rely on known image files
+    box.innerHTML = '<div class="file-item muted" style="display:block;">Uploaded images appear on your site at <code>https://talimai.tech/&lt;name&gt;</code>. After uploading, the link is shown above. (A full image browser can be added later.)</div>';
+  }catch(e){ box.innerHTML='<div class="file-item" style="color:var(--red)">'+e.message+'</div>'; }
+}
+async function uploadImage(){
+  const fileInput = document.getElementById("imgFile");
+  const name = document.getElementById("imgName").value.trim().replace(/^\/+/,"");
+  if(!fileInput.files.length){ toast("Choose an image file first.", true); return; }
+  if(!name){ toast("Enter a file name to save as.", true); return; }
+  const file = fileInput.files[0];
+  if(file.size > 4*1024*1024){ toast("Image too large (max 4 MB). Compress it first.", true); return; }
+  const btn = document.getElementById("upBtn");
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span> Uploading…';
+  try{
+    const b64 = await new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(String(fr.result).split(",")[1]); fr.onerror=()=>rej(new Error("Could not read file")); fr.readAsDataURL(file); });
+    const r = await api("/admin/upload", { method:"POST", body: JSON.stringify({ path:name, contentBase64:b64 }) });
+    document.getElementById("upResult").innerHTML = '✅ Uploaded! Live in ~1 min at <a href="'+r.url+'" target="_blank">'+r.url+'</a><br>Use this path in your pages: <code>/'+esc(name)+'</code>';
+    toast("Image uploaded 🎉");
+  }catch(e){ toast(e.message, true); document.getElementById("upResult").textContent="✗ "+e.message; }
+  finally{ btn.disabled=false; btn.textContent="Upload image"; }
 }
 
 // ---------- Leads ----------
