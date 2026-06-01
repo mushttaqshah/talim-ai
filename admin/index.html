@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talim AI — Admin Control Panel</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<style>
+  :root{
+    --cream:#F5F1E8;--cream-warm:#F9F5EC;--ink:#1A1F1A;--ink-soft:#3A3F3A;--ink-mute:#6B6F6B;
+    --forest:#0E3B2A;--forest-deep:#072017;--forest-soft:#1A5C40;
+    --gold:#C49A4C;--gold-soft:#D9B679;--gold-deep:#9C7838;
+    --red:#A04B2A;--line:rgba(26,31,26,0.14);--line-strong:rgba(26,31,26,0.26);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;}
+  h1,h2,h3{font-family:Georgia,'Times New Roman',serif;font-weight:600;}
+  .hidden{display:none!important;}
+  button{font-family:inherit;cursor:pointer;}
+  input,textarea,select{font-family:inherit;font-size:0.92rem;width:100%;padding:0.6rem 0.75rem;border:1px solid var(--line-strong);border-radius:8px;background:#fff;color:var(--ink);}
+  textarea{resize:vertical;line-height:1.5;}
+  label{display:block;font-size:0.8rem;font-weight:600;color:var(--ink-soft);margin:0.9rem 0 0.3rem;}
+  .hint{font-size:0.74rem;color:var(--ink-mute);font-weight:400;margin-top:0.25rem;}
+  .btn{background:var(--forest);color:var(--cream);border:none;padding:0.65rem 1.3rem;border-radius:999px;font-weight:600;font-size:0.9rem;}
+  .btn:hover{background:var(--forest-deep);}
+  .btn:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-gold{background:var(--gold);color:var(--forest-deep);}
+  .btn-gold:hover{background:var(--gold-soft);}
+  .btn-red{background:var(--red);color:#fff;}
+  .btn-ghost{background:transparent;color:var(--forest);border:1px solid var(--line-strong);}
+  .btn-sm{padding:0.4rem 0.85rem;font-size:0.8rem;}
+
+  /* Login */
+  .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+  .login-card{background:var(--cream-warm);border:1px solid var(--line);border-radius:18px;padding:2.5rem;max-width:380px;width:100%;box-shadow:0 12px 40px rgba(26,31,26,0.12);}
+  .login-card .mark{width:48px;height:48px;border-radius:12px;background:var(--forest);color:var(--cream);display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:1.5rem;font-weight:600;margin-bottom:1.2rem;}
+  .login-card .mark span{color:var(--gold-soft);}
+  .login-card h1{font-size:1.4rem;color:var(--forest-deep);margin-bottom:0.3rem;}
+  .login-card p{font-size:0.85rem;color:var(--ink-mute);margin-bottom:1.2rem;}
+
+  /* App shell */
+  .topbar{background:var(--forest);color:var(--cream);padding:0 1.25rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+  .topbar .brand{display:flex;align-items:center;gap:0.6rem;font-family:Georgia,serif;font-size:1.1rem;}
+  .topbar .brand .mark{width:30px;height:30px;border-radius:8px;background:var(--gold);color:var(--forest-deep);display:flex;align-items:center;justify-content:center;font-weight:700;}
+  .topbar a.view-site{color:var(--gold-soft);font-size:0.82rem;text-decoration:none;margin-right:1rem;}
+  .tabs{display:flex;gap:0.3rem;background:var(--cream-warm);border-bottom:1px solid var(--line);padding:0 1rem;position:sticky;top:58px;z-index:40;overflow-x:auto;}
+  .tab{background:none;border:none;padding:0.9rem 1rem;font-size:0.88rem;font-weight:600;color:var(--ink-mute);border-bottom:2.5px solid transparent;white-space:nowrap;}
+  .tab.active{color:var(--forest);border-bottom-color:var(--gold);}
+  .panel{max-width:880px;margin:0 auto;padding:1.5rem 1.25rem 4rem;}
+  .panel h2{font-size:1.3rem;color:var(--forest-deep);margin-bottom:0.4rem;}
+  .panel .sub{font-size:0.88rem;color:var(--ink-mute);margin-bottom:1.4rem;}
+  .card{background:var(--cream-warm);border:1px solid var(--line);border-radius:14px;padding:1.4rem;margin-bottom:1.2rem;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem;}
+  @media(max-width:600px){.row2{grid-template-columns:1fr;}}
+
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--forest-deep);color:var(--cream);padding:0.8rem 1.4rem;border-radius:999px;font-size:0.88rem;box-shadow:0 8px 28px rgba(0,0,0,0.25);z-index:100;max-width:90vw;}
+  .toast.err{background:var(--red);}
+  .banner{background:#FBEED7;border:1px solid var(--gold-soft);color:var(--gold-deep);padding:0.8rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1.2rem;}
+
+  /* file list */
+  .file-list{max-height:320px;overflow:auto;border:1px solid var(--line);border-radius:10px;background:#fff;}
+  .file-item{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0.8rem;border-bottom:1px solid var(--line);font-size:0.84rem;}
+  .file-item:last-child{border-bottom:none;}
+  .file-item code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.8rem;color:var(--ink-soft);}
+  .file-item:hover{background:var(--cream);}
+  .editor{width:100%;min-height:420px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.82rem;line-height:1.5;white-space:pre;overflow-wrap:normal;}
+  .leads-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+  .leads-table th,.leads-table td{text-align:left;padding:0.5rem 0.6rem;border-bottom:1px solid var(--line);vertical-align:top;}
+  .leads-table th{color:var(--forest);font-weight:700;}
+  .pill{display:inline-block;background:rgba(26,92,64,0.12);color:var(--forest-soft);padding:0.1rem 0.5rem;border-radius:999px;font-size:0.72rem;font-weight:600;}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:s 0.7s linear infinite;vertical-align:-2px;}
+  @keyframes s{to{transform:rotate(360deg);}}
+  .muted{color:var(--ink-mute);font-size:0.84rem;}
+  details.help{background:var(--cream-warm);border:1px solid var(--line);border-radius:10px;padding:0.4rem 1rem;margin-bottom:0.8rem;}
+  details.help summary{cursor:pointer;font-weight:600;padding:0.6rem 0;color:var(--forest-deep);}
+  details.help p,details.help li{font-size:0.86rem;color:var(--ink-soft);margin:0.4rem 0;}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-wrap" id="login">
+  <div class="login-card">
+    <div class="mark">T<span>.</span></div>
+    <h1>Admin Control Panel</h1>
+    <p>Enter your admin password to manage talimai.tech.</p>
+    <input type="password" id="pw" placeholder="Admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div style="margin-top:1rem;"><button class="btn" id="loginBtn" onclick="doLogin()" style="width:100%;">Log in</button></div>
+    <p id="loginMsg" class="hint" style="color:var(--red);margin-top:0.8rem;"></p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hidden">
+  <div class="topbar">
+    <div class="brand"><span class="mark">T</span> Admin Panel</div>
+    <div>
+      <a class="view-site" href="https://talimai.tech/" target="_blank">View site ↗</a>
+      <button class="btn btn-sm btn-ghost" style="color:var(--cream);border-color:rgba(255,255,255,0.3);" onclick="logout()">Log out</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-tab="guides" onclick="switchTab('guides')">➕ New Guide</button>
+    <button class="tab" data-tab="files" onclick="switchTab('files')">📝 Pages &amp; Files</button>
+    <button class="tab" data-tab="leads" onclick="switchTab('leads')">📥 Leads</button>
+    <button class="tab" data-tab="help" onclick="switchTab('help')">❓ Help</button>
+  </div>
+
+  <!-- GUIDES TAB -->
+  <div class="panel" id="tab-guides">
+    <h2>Create a new opportunity guide</h2>
+    <p class="sub">Fill the fields — a complete, SEO-optimised page is generated and published automatically. Goes live in ~1 minute.</p>
+    <div class="banner">Tip: keep the title keyword-rich (what people search). Lists below: write <b>one item per line</b>. Steps &amp; FAQs use <code>Title :: description</code> on each line.</div>
+
+    <div class="card">
+      <div class="row2">
+        <div>
+          <label>Page title (H1 + SEO title) *</label>
+          <input id="g_title" placeholder="e.g. HEC Need-Based Scholarship 2026 — Eligibility & How to Apply">
+        </div>
+        <div>
+          <label>URL slug *</label>
+          <input id="g_slug" placeholder="hec-need-based-scholarship">
+          <div class="hint">Lowercase, hyphens. Becomes /opportunities/<b>slug</b>/</div>
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label>Category</label>
+          <select id="g_category">
+            <option>Scholarships &amp; Education</option>
+            <option>Loans &amp; Funding</option>
+            <option>Skills &amp; Training</option>
+            <option>Jobs &amp; Internships</option>
+            <option>Leadership &amp; Engagement</option>
+            <option>Exam Prep</option>
+          </select>
+        </div>
+        <div>
+          <label>Short title (breadcrumb)</label>
+          <input id="g_shortTitle" placeholder="HEC Need-Based Scholarship">
+        </div>
+      </div>
+      <label>Meta description (for Google, 150–160 chars) *</label>
+      <textarea id="g_metaDescription" rows="2" placeholder="A clear one-line summary with the main keywords and a benefit."></textarea>
+      <label>Keywords (comma separated)</label>
+      <input id="g_keywords" placeholder="HEC scholarship 2026, need based, eligibility, how to apply">
+    </div>
+
+    <div class="card">
+      <label>At a glance box (one per line, <code>Label :: Value</code>)</label>
+      <textarea id="g_glance" rows="4" placeholder="Who runs it :: HEC&#10;Cost :: Free, merit + need based&#10;Apply at :: hec.gov.pk"></textarea>
+
+      <label>Intro paragraphs (one paragraph per line)</label>
+      <textarea id="g_intro" rows="3" placeholder="First paragraph...&#10;Second paragraph..."></textarea>
+
+      <label>What is it? (one paragraph per line)</label>
+      <textarea id="g_whatIs" rows="3"></textarea>
+
+      <label>Benefits (one per line)</label>
+      <textarea id="g_benefits" rows="3"></textarea>
+
+      <label>Who is eligible (one per line)</label>
+      <textarea id="g_eligibility" rows="3"></textarea>
+
+      <label>Documents needed (one per line)</label>
+      <textarea id="g_documents" rows="3"></textarea>
+
+      <label>How to apply — steps (one per line, <code>Step title :: description</code>)</label>
+      <textarea id="g_steps" rows="4" placeholder="Open the portal :: Go to the official website&#10;Register :: Create an account with your CNIC"></textarea>
+
+      <label>FAQ (one per line, <code>Question :: Answer</code>)</label>
+      <textarea id="g_faqs" rows="4" placeholder="Who can apply? :: Any enrolled student...&#10;Is it free? :: Yes, applying is free."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="row2">
+        <div>
+          <label>Official site name</label>
+          <input id="g_officialName" placeholder="Visit hec.gov.pk">
+        </div>
+        <div>
+          <label>Official site URL</label>
+          <input id="g_officialUrl" placeholder="https://www.hec.gov.pk/">
+        </div>
+      </div>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-top:1rem;"><input type="checkbox" id="g_overwrite" style="width:auto;"> Overwrite if a guide with this slug already exists</label>
+    </div>
+
+    <button class="btn btn-gold" id="g_publish" onclick="publishGuide()">Publish guide →</button>
+    <p id="g_result" class="muted" style="margin-top:1rem;"></p>
+  </div>
+
+  <!-- FILES TAB -->
+  <div class="panel hidden" id="tab-files">
+    <h2>Pages &amp; Files</h2>
+    <p class="sub">Edit any page's text or sections directly. Every save is committed to GitHub and is reversible from version history.</p>
+    <div class="banner">⚠️ Advanced. Editing HTML carelessly can break a page's layout. Make small changes. If something looks wrong, your previous version is always safe in GitHub's history (Repo → that file → History).</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;">
+        <strong style="font-size:0.9rem;">Files in your site</strong>
+        <button class="btn btn-sm btn-ghost" onclick="loadTree()">↻ Refresh</button>
+      </div>
+      <div class="file-list" id="fileList"><div class="file-item">Loading…</div></div>
+    </div>
+    <div class="card hidden" id="editorCard">
+      <label>Editing: <code id="editPath"></code></label>
+      <textarea class="editor" id="editor" spellcheck="false"></textarea>
+      <label>What did you change? (short note)</label>
+      <input id="commitMsg" placeholder="e.g. Updated pricing">
+      <div style="margin-top:1rem;display:flex;gap:0.6rem;flex-wrap:wrap;">
+        <button class="btn" id="saveBtn" onclick="saveFile()">Save &amp; publish</button>
+        <button class="btn btn-ghost" onclick="closeEditor()">Cancel</button>
+        <button class="btn btn-red btn-sm" style="margin-left:auto;" onclick="deleteFile()">Delete this file</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADS TAB -->
+  <div class="panel hidden" id="tab-leads">
+    <h2>Leads &amp; registrations</h2>
+    <p class="sub">Form submissions backed up from your site.</p>
+    <button class="btn btn-sm btn-ghost" onclick="loadLeads()" style="margin-bottom:1rem;">↻ Refresh</button>
+    <div class="card" id="leadsCard"><span class="muted">Click refresh to load.</span></div>
+  </div>
+
+  <!-- HELP TAB -->
+  <div class="panel hidden" id="tab-help">
+    <h2>How to use this panel</h2>
+    <p class="sub">Quick answers for common changes.</p>
+    <details class="help"><summary>How do I add a new opportunity guide?</summary><p>Go to <b>New Guide</b>, fill the fields, and click Publish. A full SEO page is created at <code>/opportunities/your-slug/</code> and added to your sitemap. After it's live, go to Google Search Console and "Request Indexing" for the new URL so it ranks sooner.</p></details>
+    <details class="help"><summary>How do I change my pricing or any text?</summary><p>Go to <b>Pages &amp; Files</b> → open <code>index.html</code> → use your browser's Find (Ctrl+F) inside the box to locate the text → edit it → Save. Live in ~1 minute.</p></details>
+    <details class="help"><summary>I think I broke something — how do I undo?</summary><p>Every change is saved in GitHub. Open <a href="https://github.com/mushttaqshah/talim-ai" target="_blank">your repo</a> → click the file → <b>History</b> → open the previous version → copy its content → paste back here and Save. Nothing is ever lost.</p></details>
+    <details class="help"><summary>How do I link a new guide on the hub page?</summary><p>Open <code>opportunities/index.html</code> in Pages &amp; Files, find the right category section, and copy an existing <code>guide-card</code> block, then change its link, title and text to point to your new guide.</p></details>
+    <details class="help"><summary>Changes aren't showing?</summary><p>Wait ~1 minute (GitHub Pages rebuilds), then hard-refresh (Ctrl+Shift+R) or open in a private window. Cloudflare cache can take a few minutes.</p></details>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script>
+const API = "https://talimai.tech/api";
+let KEY = sessionStorage.getItem("talim_admin_key") || "";
+let currentSha = null;
+
+function toast(msg, isErr){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.className = "toast" + (isErr ? " err" : "");
+  setTimeout(()=>{ t.className = "toast hidden"; }, 3500);
+}
+function headers(){ return { "Content-Type":"application/json", "X-Admin-Key": KEY }; }
+
+async function api(path, opts){
+  opts = opts || {};
+  opts.headers = Object.assign(headers(), opts.headers||{});
+  const res = await fetch(API + path, opts);
+  if(res.status === 401){ logout(); throw new Error("Session expired — log in again."); }
+  const data = await res.json().catch(()=>({ok:false,error:"Bad response"}));
+  if(!res.ok || !data.ok) throw new Error(data.error || ("Error "+res.status));
+  return data;
+}
+
+// ---------- Auth ----------
+async function doLogin(){
+  const pw = document.getElementById("pw").value.trim();
+  if(!pw){ return; }
+  KEY = pw;
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking…';
+  try{
+    await api("/admin/login", { method:"POST", body:"{}" });
+    sessionStorage.setItem("talim_admin_key", KEY);
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    loadTree();
+  }catch(e){
+    document.getElementById("loginMsg").textContent = e.message || "Wrong password.";
+    KEY = "";
+  }finally{
+    btn.disabled = false; btn.textContent = "Log in";
+  }
+}
+function logout(){
+  sessionStorage.removeItem("talim_admin_key"); KEY="";
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("login").classList.remove("hidden");
+  document.getElementById("pw").value="";
+}
+
+// ---------- Tabs ----------
+function switchTab(name){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab===name));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.add("hidden"));
+  document.getElementById("tab-"+name).classList.remove("hidden");
+  if(name==="leads") loadLeads();
+  if(name==="files") loadTree();
+}
+
+// ---------- Guides ----------
+async function publishGuide(){
+  const g = {
+    title: val("g_title"), slug: val("g_slug"), category: val("g_category"),
+    shortTitle: val("g_shortTitle"), metaDescription: val("g_metaDescription"),
+    keywords: val("g_keywords"), glance: val("g_glance"), intro: val("g_intro"),
+    whatIs: val("g_whatIs"), benefits: val("g_benefits"), eligibility: val("g_eligibility"),
+    documents: val("g_documents"), steps: val("g_steps"), faqs: val("g_faqs"),
+    officialName: val("g_officialName"), officialUrl: val("g_officialUrl"),
+    overwrite: document.getElementById("g_overwrite").checked
+  };
+  if(!g.title || !g.slug || !g.metaDescription){ toast("Title, slug and meta description are required.", true); return; }
+  const btn = document.getElementById("g_publish");
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span> Publishing…';
+  try{
+    const r = await api("/admin/new-guide", { method:"POST", body: JSON.stringify(g) });
+    document.getElementById("g_result").innerHTML =
+      '✅ Published! <a href="'+r.url+'" target="_blank">'+r.url+'</a> — live in ~1 min.'+
+      (r.sitemapUpdated ? ' Added to sitemap.' : '')+
+      '<br>Next: in Google Search Console, Request Indexing for that URL.';
+    toast("Guide published 🎉");
+  }catch(e){ toast(e.message, true); document.getElementById("g_result").textContent = "✗ "+e.message; }
+  finally{ btn.disabled=false; btn.textContent="Publish guide →"; }
+}
+function val(id){ return document.getElementById(id).value.trim(); }
+
+// ---------- Files ----------
+async function loadTree(){
+  const box = document.getElementById("fileList");
+  box.innerHTML = '<div class="file-item">Loading…</div>';
+  try{
+    const r = await api("/admin/tree");
+    if(!r.files.length){ box.innerHTML='<div class="file-item">No files.</div>'; return; }
+    box.innerHTML = r.files.map(f =>
+      '<div class="file-item"><code>'+f+'</code>'+
+      '<button class="btn btn-sm btn-ghost" onclick="openFile(\''+f.replace(/'/g,"\\'")+'\')">Edit</button></div>'
+    ).join("");
+  }catch(e){ box.innerHTML='<div class="file-item" style="color:var(--red)">'+e.message+'</div>'; }
+}
+async function openFile(path){
+  try{
+    const r = await api("/admin/file?path="+encodeURIComponent(path));
+    currentSha = r.sha;
+    document.getElementById("editPath").textContent = path;
+    document.getElementById("editor").value = r.content;
+    document.getElementById("commitMsg").value = "";
+    document.getElementById("editorCard").classList.remove("hidden");
+    document.getElementById("editorCard").scrollIntoView({behavior:"smooth"});
+  }catch(e){ toast(e.message, true); }
+}
+function closeEditor(){ document.getElementById("editorCard").classList.add("hidden"); }
+async function saveFile(){
+  const path = document.getElementById("editPath").textContent;
+  const content = document.getElementById("editor").value;
+  const msg = document.getElementById("commitMsg").value.trim() || ("Edit "+path);
+  const btn = document.getElementById("saveBtn");
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span> Saving…';
+  try{
+    await api("/admin/file", { method:"PUT", body: JSON.stringify({ path, content, message: msg }) });
+    toast("Saved — live in ~1 min ✅");
+  }catch(e){ toast(e.message, true); }
+  finally{ btn.disabled=false; btn.textContent="Save & publish"; }
+}
+async function deleteFile(){
+  const path = document.getElementById("editPath").textContent;
+  if(!confirm("Delete "+path+" ?\nThis removes the file from your live site. (Still recoverable from GitHub history.)")) return;
+  try{
+    await api("/admin/file", { method:"DELETE", body: JSON.stringify({ path, message:"Delete "+path }) });
+    toast("Deleted.");
+    closeEditor(); loadTree();
+  }catch(e){ toast(e.message, true); }
+}
+
+// ---------- Leads ----------
+async function loadLeads(){
+  const box = document.getElementById("leadsCard");
+  box.innerHTML = '<span class="muted">Loading…</span>';
+  try{
+    const res = await fetch(API + "/leads?key=" + encodeURIComponent(KEY));
+    const data = await res.json();
+    if(!data.ok){ throw new Error(data.error||"Failed"); }
+    if(!data.leads || !data.leads.length){ box.innerHTML='<span class="muted">No leads yet.</span>'; return; }
+    const rows = data.leads.map(l =>
+      '<tr><td>'+esc(l.contact_name||l.email||'—')+'</td><td>'+esc(l.email||'')+'</td><td>'+esc(l.whatsapp||'')+
+      '</td><td><span class="pill">'+esc(l.audience_type||l.type||'')+'</span></td><td>'+esc((l.submitted_at||'').slice(0,10))+'</td></tr>'
+    ).join("");
+    box.innerHTML = '<div style="overflow:auto"><table class="leads-table"><tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Type</th><th>Date</th></tr>'+rows+'</table></div>'+
+      '<p class="muted" style="margin-top:0.8rem;">'+data.count+' total</p>';
+  }catch(e){ box.innerHTML='<span style="color:var(--red)">'+e.message+'</span>'; }
+}
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// ---------- Boot ----------
+if(KEY){
+  // try silent resume
+  api("/admin/login", { method:"POST", body:"{}" })
+    .then(()=>{ document.getElementById("login").classList.add("hidden"); document.getElementById("app").classList.remove("hidden"); loadTree(); })
+    .catch(()=>{ logout(); });
+}
+</script>
+</body>
+</html>
