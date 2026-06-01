@@ -3673,5 +3673,12 @@ async function sendChat(){
 }
 </script>
 
+<!-- Talim AI: analytics beacon + visual editor loader -->
+<script>
+(function(){
+  try{ fetch("https://talimai.tech/api/track",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:location.pathname})}); }catch(e){}
+  if(location.search.indexOf("edit=1")>-1){ var s=document.createElement("script"); s.src="/admin/editor.js"; document.body.appendChild(s); }
+})();
+</script>
 </body>
 </html>
