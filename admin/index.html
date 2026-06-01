@@ -102,8 +102,10 @@
   </div>
   <div class="tabs">
     <button class="tab active" data-tab="guides" onclick="switchTab('guides')">➕ New Guide</button>
+    <button class="tab" data-tab="editsite" onclick="switchTab('editsite')">🖌️ Edit Site</button>
     <button class="tab" data-tab="files" onclick="switchTab('files')">📝 Pages &amp; Files</button>
     <button class="tab" data-tab="media" onclick="switchTab('media')">🖼️ Media</button>
+    <button class="tab" data-tab="stats" onclick="switchTab('stats')">📊 Stats</button>
     <button class="tab" data-tab="leads" onclick="switchTab('leads')">📥 Leads</button>
     <button class="tab" data-tab="help" onclick="switchTab('help')">❓ Help</button>
   </div>
@@ -191,6 +193,34 @@
 
     <button class="btn btn-gold" id="g_publish" onclick="publishGuide()">Publish guide →</button>
     <p id="g_result" class="muted" style="margin-top:1rem;"></p>
+  </div>
+
+  <!-- EDIT SITE TAB -->
+  <div class="panel hidden" id="tab-editsite">
+    <h2>Edit your site visually</h2>
+    <p class="sub">Open any page in <b>Edit Mode</b>. Click text to change it, click an image to replace it, then Save — changes go live in ~1 minute.</p>
+    <div class="banner">How it works: the page opens with an Edit toolbar at the bottom. Dashed outlines = editable. Click → type → <b>Save changes</b>. Free-form moving of items isn't available here, but all text &amp; images are editable.</div>
+    <div class="card">
+      <label>Open a page in Edit Mode</label>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <a class="btn btn-gold" href="https://talimai.tech/?edit=1" target="_blank">🏠 Edit Home page</a>
+        <a class="btn btn-ghost" href="https://talimai.tech/opportunities/?edit=1" target="_blank">Edit Opportunities hub</a>
+      </div>
+      <label style="margin-top:1.2rem;">Or open any other page (paste its path)</label>
+      <div style="display:flex;gap:0.5rem;">
+        <input id="editPagePath" placeholder="/opportunities/kamyab-jawan-business-loan/">
+        <button class="btn btn-sm" onclick="openInEditMode()" style="white-space:nowrap;">Open ✏️</button>
+      </div>
+      <div class="hint">It will ask for your admin password the first time, then remember it.</div>
+    </div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div class="panel hidden" id="tab-stats">
+    <h2>Statistics</h2>
+    <p class="sub">Visitors and leads for talimai.tech.</p>
+    <button class="btn btn-sm btn-ghost" onclick="loadStats()" style="margin-bottom:1rem;">↻ Refresh</button>
+    <div id="statsBox"><span class="muted">Loading…</span></div>
   </div>
 
   <!-- FILES TAB -->
@@ -335,6 +365,7 @@ function switchTab(name){
   if(name==="leads") loadLeads();
   if(name==="files") loadTree();
   if(name==="media") loadMedia();
+  if(name==="stats") loadStats();
 }
 
 // ---------- Guides ----------
@@ -521,6 +552,50 @@ async function loadLeads(){
   }catch(e){ box.innerHTML='<span style="color:var(--red)">'+e.message+'</span>'; }
 }
 function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+// ---------- Edit site ----------
+function openInEditMode(){
+  var p = document.getElementById("editPagePath").value.trim();
+  if(!p){ toast("Paste a page path first.", true); return; }
+  if(p.indexOf("http")===0){ /* full url */ }
+  else { if(p[0]!=="/") p="/"+p; p = "https://talimai.tech" + p; }
+  var sep = p.indexOf("?")>-1 ? "&" : "?";
+  window.open(p + sep + "edit=1", "_blank");
+}
+
+// ---------- Stats ----------
+async function loadStats(){
+  const box = document.getElementById("statsBox");
+  box.innerHTML = '<span class="muted"><span class="spin" style="border-top-color:var(--forest)"></span> Loading…</span>';
+  try{
+    const r = await api("/admin/stats");
+    const max = Math.max(1, ...r.last14.map(d=>d.count));
+    const bars = r.last14.map(d=>{
+      const h = Math.round((d.count/max)*90)+4;
+      const dd = d.date.slice(5);
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">'+
+        '<div style="font-size:0.62rem;color:var(--ink-mute);">'+d.count+'</div>'+
+        '<div title="'+d.date+': '+d.count+'" style="width:60%;height:'+h+'px;background:var(--forest-soft);border-radius:4px 4px 0 0;"></div>'+
+        '<div style="font-size:0.58rem;color:var(--ink-mute);transform:rotate(-45deg);transform-origin:center;white-space:nowrap;margin-top:4px;">'+dd+'</div></div>';
+    }).join("");
+    const tp = r.topPages.length
+      ? r.topPages.map(p=>'<div class="file-item"><code>'+esc(p.path)+'</code><span class="pill">'+p.count+'</span></div>').join("")
+      : '<div class="file-item muted">No page views yet.</div>';
+    box.innerHTML =
+      '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:1.4rem;">'+
+        statCard("Total views", r.total)+statCard("Today", r.today)+statCard("Last 7 days", r.last7)+statCard("Leads", r.leadsCount)+
+      '</div>'+
+      '<div class="card"><strong style="font-size:0.9rem;">Last 14 days</strong>'+
+        '<div style="display:flex;align-items:flex-end;gap:3px;height:140px;margin-top:1rem;">'+bars+'</div></div>'+
+      '<div class="card"><strong style="font-size:0.9rem;">Top pages</strong><div style="margin-top:0.7rem;">'+tp+'</div></div>'+
+      '<p class="muted" style="font-size:0.78rem;">Tracking is anonymous page views (no cookies). Counts start from when you deployed tracking.</p>';
+  }catch(e){ box.innerHTML='<span style="color:var(--red)">'+e.message+'</span>'; }
+}
+function statCard(label, val){
+  return '<div style="background:var(--forest);color:var(--cream);border-radius:14px;padding:1.1rem;text-align:center;">'+
+    '<div style="font-family:Georgia,serif;font-size:1.9rem;font-weight:600;color:var(--gold-soft);">'+(val||0)+'</div>'+
+    '<div style="font-size:0.74rem;opacity:0.85;margin-top:2px;">'+label+'</div></div>';
+}
 
 // ---------- Boot ----------
 if(KEY){
