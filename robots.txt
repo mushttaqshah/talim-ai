@@ -1,26 +1,11 @@
-# robots.txt for talimai.tech
-# Last updated: 2026-05-15
+# Talim AI — robots.txt
+# Allow all search engines and AI crawlers full access (good for SEO + AI discovery)
 
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /api
-Disallow: /*?*
 
-# Be friendly to AI crawlers
-User-agent: GPTBot
-Allow: /
+# Keep the admin panel out of search results
+Disallow: /admin/
 
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: CCBot
-Allow: /
-
+# Sitemap
 Sitemap: https://talimai.tech/sitemap.xml
