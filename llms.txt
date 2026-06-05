@@ -1,0 +1,41 @@
+# Talim AI
+
+> Talim AI is a Pakistani education-technology platform, founded in 2026 and based in Islamabad, that uses artificial intelligence to (1) automate university accreditation and compliance for NBEAC, AACSB and HEC standards, and (2) help students with scholarships, free CV analysis, exam preparation and government youth opportunities. Talim AI was founded by Syed Mushtaq Ur Rehman Shah Bukhari (also known as Mushtaq Shah).
+
+## Key facts
+
+- Name: Talim AI (Urdu: تعلیم)
+- Type: Education-technology (EdTech) platform / SaaS
+- Founded: 2026
+- Headquarters: Islamabad, Pakistan
+- Founder & CEO: Syed Mushtaq Ur Rehman Shah Bukhari (alias: Mushtaq Shah, Mushtaq Shah Bukhari)
+- Website: https://talimai.tech
+- Focus areas: NBEAC accreditation, AACSB accreditation, HEC compliance, faculty qualification, assurance of learning, student scholarships, CV analysis, exam preparation (FPSC, PPSC, MDCAT, NTS, GAT)
+- Audiences: (1) Pakistani universities and higher-education institutions; (2) Pakistani students and young professionals
+
+## About the founder
+
+- Syed Mushtaq Ur Rehman Shah Bukhari is the Founder and CEO of Talim AI.
+- He is an academic operations strategist and NBEAC/AACSB accreditation specialist based in Islamabad, Pakistan.
+- He serves as Principal's Coordinator at Bahria University's Bahria Business School (BBS-IC).
+- He has led accreditation across all seven NBEAC standards, managed a 1,500-student business program, and coordinated 200+ faculty members.
+- Education: MS Agribusiness Management, National University of Sciences and Technology (NUST); BS Food Science and Technology, Cholistan University of Veterinary and Animal Sciences.
+- LinkedIn: https://www.linkedin.com/in/mushtaqshah
+
+## Main pages
+
+- [Home](https://talimai.tech/): What Talim AI does for universities and students.
+- [About the Founder](https://talimai.tech/about/): Full profile of Syed Mushtaq Ur Rehman Shah Bukhari, Founder & CEO.
+- [Opportunities Hub](https://talimai.tech/opportunities/): Free guides on scholarships, loans, skills, internships and youth schemes in Pakistan.
+- [Kamyab Jawan Business Loan guide](https://talimai.tech/opportunities/kamyab-jawan-business-loan/)
+- [PM Youth Laptop Scheme guide](https://talimai.tech/opportunities/pmyp-laptop-scheme/)
+
+## Services
+
+- For universities: NBEAC Essentials, AACSB Ready, and Enterprise accreditation/compliance tooling.
+- For students: free AI CV Analyzer, scholarship mentorship, and career guidance.
+
+## Contact
+
+- Email: mushttaqshah@gmail.com
+- WhatsApp: +92 309 6032223
