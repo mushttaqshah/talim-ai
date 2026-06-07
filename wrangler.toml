@@ -1,0 +1,31 @@
+# wrangler.toml — Cloudflare Worker deployment config for talimai.tech
+#
+# This tells Cloudflare how to deploy the registration Worker:
+#   - what to name it
+#   - which KV namespace to attach (for backups + rate limiting)
+#   - which URL route triggers it
+#
+# Secrets (NOTION_TOKEN, DATABASE_ID, etc.) are NOT in this file.
+# They are added separately via:  npx wrangler secret put NOTION_TOKEN
+# or through the Cloudflare dashboard. Never commit secrets.
+
+name = "talimai-register"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# ── KV namespace binding ──────────────────────────────────────────────
+# The "id" below is a placeholder. You'll create the KV namespace and
+# replace this id during deployment (the deploy guide explains how).
+[[kv_namespaces]]
+binding = "LEADS_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# ── Route ─────────────────────────────────────────────────────────────
+# This makes the Worker handle talimai.tech/api/* requests.
+# Since talimai.tech is on Cloudflare, this works automatically.
+[[routes]]
+pattern = "talimai.tech/api/*"
+zone_name = "talimai.tech"
+
+# Note: GitHub Pages still serves everything else (the actual website).
+# Only /api/* paths are intercepted by this Worker.
